@@ -1,19 +1,29 @@
 import { useState } from "react";
 import axios from "axios";
+import { useDispatch } from "react-redux";
+import { addUser } from "../utils/userSlice";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [emailId, setEmailId] = useState("dhaval@gmail.com");
   const [password, setPassword] = useState("Dhaval@123");
+  const dispatch = useDispatch();
+  const navigate=useNavigate()
 
   const handleLoginClick = async () => {
     try {
-      const response = await axios.post("http://localhost:9999/login", {
-        emailId,
-        password,
-      },{withCredentials:true});
-      
-      console.log(response.data.firstName)
-     
+      const response = await axios.post(
+        "http://localhost:9999/login",
+        {
+          emailId,
+          password,
+        },
+        { withCredentials: true }
+      );
+
+      console.log(response.data);
+      dispatch(addUser(response.data));
+      navigate("/")
     } catch (err) {
       console.log("ERROR", err.message);
     }
@@ -25,7 +35,9 @@ const Login = () => {
         <div className="card-body">
           <h2 className="card-title justify-center text-2xl mb-3">Login</h2>
           <fieldset className="fieldset">
-            <legend className="fieldset-legend text-sm font-normal">Email Id</legend>
+            <legend className="fieldset-legend text-sm font-normal">
+              Email Id
+            </legend>
             <input
               type="text"
               value={emailId}
@@ -35,7 +47,9 @@ const Login = () => {
             />
           </fieldset>
           <fieldset className="fieldset">
-            <legend className="fieldset-legend text-sm font-normal">Password</legend>
+            <legend className="fieldset-legend text-sm font-normal">
+              Password
+            </legend>
             <input
               type="text"
               value={password}
