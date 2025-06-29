@@ -1,12 +1,13 @@
-import NavBar from "./Navbar";
+import NavBar from "./NavBar";
+import Footer from "./Footer";
 import { Outlet } from "react-router-dom";
 
 const Body = () => {
   return (
     <div>
       <NavBar />
-      <Outlet />     {/*To render children components  */}
-    
+      <Outlet /> {/*To render children components  */}
+      {/* <Footer /> */}
     </div>
   );
 };
