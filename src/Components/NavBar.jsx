@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import BASE_URL from "../utils/constants";
 import { removeUser } from "../utils/userSlice";
 import { isLogout } from "../utils/logoutSlice";
+import { removeFeed } from "../utils/feedSlice";
 
 const NavBar = () => {
   const user = useSelector((store) => store.user);
@@ -15,6 +16,7 @@ const NavBar = () => {
       await axios.post(BASE_URL + "/logout", {}, { withCredentials: true });
       dispatch(removeUser());
       dispatch(isLogout(true))
+      dispatch(removeFeed())
       navigate("/login");
     } catch (err) {
       //any error
@@ -27,6 +29,7 @@ const NavBar = () => {
         {user ? <Link to="/">🧑🏻‍💻DevTinder</Link> : <a>🧑🏻‍💻DevTinder</a>}
       </div>
       <div className="flex gap-2">
+        {user && <p className="mt-2 ">Welcome, {user.firstName}</p>}
         {user && (
           <div className="dropdown dropdown-end mx-5">
             <div
@@ -34,7 +37,9 @@ const NavBar = () => {
               role="button"
               className="btn btn-ghost btn-circle avatar"
             >
+      
               <div className="w-10 rounded-full ">
+              
                 <img alt="Tailwind CSS Navbar component" src={user?.photoUrl} />
               </div>
             </div>
@@ -49,7 +54,10 @@ const NavBar = () => {
                 </Link>
               </li>
               <li>
-                <a>Settings</a>
+                <Link to="/connections">Connections</Link>
+              </li>
+              <li>
+                <Link to="/requests">Requests</Link>
               </li>
               <li>
                 <a onClick={handleLogoutClick}>Logout</a>

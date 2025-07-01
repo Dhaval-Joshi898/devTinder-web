@@ -5,6 +5,8 @@ import Profile from "./Components/Profile";
 import Feed from "./Components/Feed";
 import { Provider } from "react-redux";
 import appStore from "./utils/appStore";
+import Connections from "./Components/Connections";
+import Requests from "./Components/Requests";
 
 function App() {
   return (
@@ -17,6 +19,8 @@ function App() {
               <Route path="/" element={<Feed />} />
               <Route path="/login" element={<Login />} />
               <Route path="/profile" element={<Profile />} />
+              <Route path="/connections" element={<Connections/>} />
+              <Route path="/requests" element={<Requests/>} />
             </Route>
           </Routes>
         </BrowserRouter>
@@ -26,3 +30,5 @@ function App() {
 }
 
 export default App;
+
+//user connections get,user requests recieved ,accept reject post api on request recieved
