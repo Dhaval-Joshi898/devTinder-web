@@ -33,14 +33,14 @@ const EditProfile = ({ user }) => {
     <div className="flex flex-col-reverse lg:flex-row justify-center items-start mt-10 gap-10 px-4">
 
   {/* ✅ UserCard: Shows on top in mobile, right in desktop */}
-  <div className="w-full lg:w-[30%] flex justify-center">
-    <div className="h-80">
+  <div className="w-full lg:w-[30%] mt-28  flex justify-center h-full sticky top-36 ">
+    <div className="h-80 ">
       <UserCard userData={{ firstName, lastName, age, gender, photoUrl, about }} />
     </div>
   </div>
 
   {/* ✅ Form: Shows below on mobile, left in desktop */}
-  <div className="w-full lg:w-[40%] flex justify-center">
+  <div className="w-full lg:w-[40%] mt-24 flex justify-center overflow-hidden">
     <div className="card bg-base-300 w-full max-w-md shadow-sm">
       <div className="card-body">
         <h2 className="card-title justify-center text-2xl mb-2">Profile</h2>
