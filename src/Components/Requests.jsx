@@ -38,7 +38,7 @@ const Requests = () => {
     );
 
   return (
-    <div className="flex flex-col items-center mt-4 ">
+    <div className="flex flex-col items-center mt-20">
       <p className="text-xl">All Request Recieved</p>
       {console.log(requests)}
       {requests &&
