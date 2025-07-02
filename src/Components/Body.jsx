@@ -6,7 +6,7 @@ import BASE_URL from "../utils/constants";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addUser } from "../utils/userSlice";
-
+  
 const Body = () => {
   const navigate = useNavigate();
   const user = useSelector((store) => store.user);
@@ -18,7 +18,7 @@ const Body = () => {
         const userData = await axios.get(BASE_URL + "/profile/view", {
           withCredentials: true,
         });
-        console.log(userData);
+        // console.log(userData);
         dispatch(addUser(userData?.data));
       }
     } catch (err) {
@@ -31,6 +31,7 @@ const Body = () => {
   useEffect(() => {
     fetchUser();
   }, []);
+
 
   return (
     <div>
