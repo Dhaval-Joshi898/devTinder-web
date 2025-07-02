@@ -25,7 +25,8 @@ const Connections = () => {
     return <h1>No connections found</h1>;
 
   return (
-    <div className=" flex-col items-center ">
+    <div className=" flex-col items-center my-24 ">
+      <h1 className="text-xl my-8 text-center font-semibold">Your Connections</h1>
       {connections &&
         connections.map((connection) => (
           <div
