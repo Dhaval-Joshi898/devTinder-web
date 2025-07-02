@@ -50,7 +50,7 @@ const Login = () => {
       {logoutStatus && (
         <div
           role="alert"
-          className="alert alert-success max-w-sm  w-full mx-auto mt-4 shadow-lg"
+          className="alert alert-success max-w-sm  w-full mx-auto mt-16 shadow-lg "
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -68,7 +68,7 @@ const Login = () => {
           <span className="font-bold">Logged Out Successfully!</span>
         </div>
       )}
-      <div className="flex justify-center mt-20">
+      <div className="flex justify-center mt-28">
         <div className="card bg-base-300 w-96 shadow-sm ">
           <div className="card-body">
             <h2 className="card-title justify-center text-2xl mb-3">Login</h2>
@@ -94,6 +94,7 @@ const Login = () => {
                 className="input mb-2"
                 placeholder="Enter your password"
                 onChange={(e) => setPassword(e.target.value)}
+              
               />
             </fieldset>
             <p className="text-red-500">{errorMessage}</p>
