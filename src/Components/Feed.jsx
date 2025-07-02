@@ -10,7 +10,7 @@ const Feed = () => {
   const feed = useSelector((store) => store?.feed);
 
   const fetchFeedData = async () => {
-    if (feed) return;  //if feed data is there return dont call the api
+    if (feed) return; //if feed data is there return dont call the api
     const response = await axios.get(BASE_URL + "/feed", {
       withCredentials: true,
     });
@@ -22,10 +22,17 @@ const Feed = () => {
     fetchFeedData();
   }, []);
 
+  if (feed?.length <= 0 || !feed) {
+return (
+  <div className="h-screen w-full flex items-center justify-center">
+    <h1 className="text-center text-3xl font-semibold">You have viewed all users</h1>
+  </div>
+);
+
+  }
   return (
     <div className="flex justify-center my-28">
-
-      {feed && <UserCard userData={feed[0]}/>}
+      {feed && <UserCard userData={feed[0]} />}
     </div>
   );
 };

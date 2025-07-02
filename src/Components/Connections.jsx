@@ -22,10 +22,10 @@ const Connections = () => {
   }, []);
 
   if (connections && connections.length === 0)
-    return <h1>No connections found</h1>;
+    return <h1 className="mt-28 font-semibold text-2xl text-center">No connections found.</h1>;
 
   return (
-    <div className=" flex-col items-center my-24 ">
+    <div className=" flex-col items-center mt-24 ">
       <h1 className="text-xl my-8 text-center font-semibold">Your Connections</h1>
       {connections &&
         connections.map((connection) => (
