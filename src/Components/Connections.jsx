@@ -3,10 +3,13 @@ import React, { useEffect } from "react";
 import BASE_URL from "../utils/constants";
 import { useDispatch, useSelector } from "react-redux";
 import { addConnectionList } from "../utils/connectionSlice";
+import { useNavigate } from "react-router-dom";
 
 const Connections = () => {
   const dispatch = useDispatch();
   const connections = useSelector((store) => store?.connections);
+  const user = useSelector((store) => store?.user);
+  const navigate = useNavigate();
 
   const fetchUserConnections = async () => {
     //make it if in store do not call the api
@@ -18,15 +21,28 @@ const Connections = () => {
   };
 
   useEffect(() => {
+    if (!user) {
+      navigate("/login", { replace: true });
+      return;
+    }
+
     fetchUserConnections();
   }, []);
 
+  if (!user) return null; // prevent rendering before redirect
+
   if (connections && connections.length === 0)
-    return <h1 className="mt-28 font-semibold text-2xl text-center">No connections found.</h1>;
+    return (
+      <h1 className="mt-28 font-semibold text-2xl text-center">
+        No connections found.
+      </h1>
+    );
 
   return (
     <div className=" flex-col items-center mt-24 ">
-      <h1 className="text-xl my-8 text-center font-semibold">Your Connections</h1>
+      <h1 className="text-xl my-8 text-center font-semibold">
+        Your Connections
+      </h1>
       {connections &&
         connections.map((connection) => (
           <div
@@ -49,9 +65,10 @@ const Connections = () => {
                 {connection.firstName} {connection.lastName}
               </h2>
               <span className="text-sm text-gray-500">
-                {connection.age  || ""} {connection.gender ?","+ connection.gender : ""}
+                {connection.age || ""}{" "}
+                {connection.gender ? "," + connection.gender : ""}
               </span>
-             
+
               <p className="text-sm text-gray-500">
                 {connection.about || "No bio yet"}
               </p>
@@ -63,7 +80,6 @@ const Connections = () => {
             </div>
           </div>
         ))}
-      
     </div>
   );
 };
