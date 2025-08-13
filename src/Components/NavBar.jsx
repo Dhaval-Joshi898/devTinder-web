@@ -5,6 +5,7 @@ import BASE_URL from "../utils/constants";
 import { removeUser } from "../utils/userSlice";
 import { isLogout } from "../utils/logoutSlice";
 import { removeFeed } from "../utils/feedSlice";
+import { FiLogOut } from "react-icons/fi";
 
 const NavBar = () => {
   const user = useSelector((store) => store.user);
@@ -41,7 +42,9 @@ const NavBar = () => {
               <Link to="/connections">My Connections</Link>
             </p>
             <div className="mt-2 ml-2 indicator cursor-pointer">
-              <span className="indicator-item badge badge-secondary size-6">{requests.length}</span>
+              <span className="indicator-item badge badge-secondary size-6">
+                {requests?.length}
+              </span>
               <Link
                 to="/requests"
                 className="px-4 py-1 rounded-md transition-colors duration-200 hover:bg-gray-600 font-semibold"
@@ -83,20 +86,44 @@ const NavBar = () => {
           </div>
         )}{" "} */}
       </div>
-          {/* Below this circle avatar will be visble in all screens */}
-          {user && <p className="mt-2 ml-3 mx-1 ">Welcome, {user.firstName}</p>}
-        {user && (
-          <div className="dropdown dropdown-end mx-5  ">
-            <div
-              tabIndex={0}
-              role="button"
-              className="btn btn-ghost btn-circle avatar"
-            >
-              <div className="w-10 rounded-full block">
-                <img alt="Tailwind CSS Navbar component" src={user?.photoUrl} />
-              </div>
+      {/* Below this circle avatar will be visble in all screens */}
+      {user && <p className="mt-2 ml-3 mx-1 ">Welcome, {user.firstName}</p>}
+      {user && (
+        <div className="dropdown dropdown-end mx-5  ">
+          <div
+            tabIndex={0}
+            role="button"
+            className="btn btn-ghost btn-circle avatar"
+          >
+            <div className="w-10 rounded-full block">
+              <img alt="Tailwind CSS Navbar component" src={user?.photoUrl} />
             </div>
-            <ul
+          </div>
+          <ul
+            tabIndex={0}
+            className="menu dropdown-content bg-base-300 shadow-lg rounded-box z-10 mt-3 w-64 p-4 shadow-lg text-base"
+          >
+            <li className="text-lg py-2 px-3 hover:bg-transparent bg-base-0 border-b border-gray-500 rounded">
+              <Link to="/profile">Profile</Link>
+            </li>
+            <li className="text-lg py-2 px-3 bg-base-0  border-b border-gray-500 rounded">
+              <Link to="/connections">Connections</Link>
+            </li>
+            <li className="text-lg py-2 px-3 border-b border-gray-500  rounded">
+              <Link to="/requests">Requests</Link>
+            </li>
+            <li className="text-lg py-2 px-3  rounded ">
+              <div className="flex justify-between ">
+              <a onClick={handleLogoutClick}>Logout</a>
+              <FiLogOut className="h-8 ml-4" />
+             
+              
+              </div>
+                
+            </li>
+          </ul>
+
+          {/* <ul
               tabIndex={0}
               className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
             >
@@ -112,10 +139,9 @@ const NavBar = () => {
               <li>
                 <a onClick={handleLogoutClick}>Logout</a>
               </li>
-            </ul>
-          </div>
-        )}{" "}
-
+            </ul> */}
+        </div>
+      )}{" "}
     </div>
   );
 };
