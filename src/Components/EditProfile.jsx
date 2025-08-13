@@ -42,21 +42,22 @@ const EditProfile = ({ user }) => {
   {/* ✅ Form: Shows below on mobile, left in desktop */}
   <div className="w-full lg:w-[40%] mt-24 flex justify-center overflow-hidden">
     <div className="card bg-base-300 w-full max-w-md shadow-sm">
-      <div className="card-body">
-        <h2 className="card-title justify-center text-2xl mb-2">Profile</h2>
 
-        <fieldset className="fieldset">
-          <legend className="fieldset-legend text-sm font-normal">First Name</legend>
+      <div className="card-body flex">
+        <h2 className="card-title justify-center text-3xl mb-2 font-bold text-white">Profile</h2>
+
+        <fieldset className="fieldset ml-9">
+          <legend className="fieldset-legend text-sm font-normal ">First Name</legend>
           <input
             type="text"
             value={firstName}
-            className="input mb-1"
+            className="input mb-1 "
             placeholder="Enter your first name"
             onChange={(e) => setFirstName(e.target.value)}
           />
         </fieldset>
 
-        <fieldset className="fieldset">
+        <fieldset className="fieldset  ml-9 ">
           <legend className="fieldset-legend text-sm font-normal">Last Name</legend>
           <input
             type="text"
@@ -67,7 +68,7 @@ const EditProfile = ({ user }) => {
           />
         </fieldset>
 
-        <fieldset className="fieldset">
+        <fieldset className="fieldset ml-9">
           <legend className="fieldset-legend text-sm font-normal">Age</legend>
           <input
             type="text"
@@ -78,7 +79,7 @@ const EditProfile = ({ user }) => {
           />
         </fieldset>
 
-        <fieldset className="fieldset">
+        <fieldset className="fieldset ml-9">
           <legend className="fieldset-legend text-sm font-normal">Photo URL</legend>
           <input
             type="text"
@@ -89,12 +90,12 @@ const EditProfile = ({ user }) => {
           />
         </fieldset>
 
-        <fieldset className="fieldset">
+        <fieldset className="fieldset ml-9">
           <legend className="fieldset-legend text-sm font-normal">Gender</legend>
           <select
             value={gender}
             onChange={(e) => setGender(e.target.value)}
-            className="select select-bordered w-[95%] mb-1"
+            className="select select-bordered mb-1"
           >
             <option value="">Select your gender</option>
             <option value="Male">Male</option>
@@ -103,7 +104,7 @@ const EditProfile = ({ user }) => {
           </select>
         </fieldset>
 
-        <fieldset className="fieldset">
+        <fieldset className="fieldset ml-9">
           <legend className="fieldset-legend text-sm font-normal">About</legend>
           <textarea
             type="text"
