@@ -27,7 +27,7 @@ const NavBar = () => {
 
   return (
     <div className="navbar bg-base-300 shadow-sm fixed top-0 z-[999] ">
-      <div className="flex-1 ml-5 ">
+      <div className="flex-1 ml-5 text-2xl lg:text-3xl">
         {user ? <Link to="/">🧑🏻‍💻DevTinder</Link> : <a>🧑🏻‍💻DevTinder</a>}
       </div>
       <div className="flex gap-2 hidden  md:flex  ">

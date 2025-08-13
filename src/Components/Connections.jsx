@@ -40,7 +40,8 @@ const Connections = () => {
 
   return (
     <div className=" flex-col items-center mt-24 ">
-      <h1 className="text-xl my-8 text-center font-semibold">
+    
+      <h1 className="text-2xl my-8 text-center font-semibold">
         Your Connections
       </h1>
       {connections &&

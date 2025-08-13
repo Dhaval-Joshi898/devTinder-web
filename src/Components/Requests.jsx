@@ -49,7 +49,7 @@ const Requests = () => {
 
   return (
     <div className="flex flex-col items-center mt-20 ">
-      <p className="text-xl my-8 font-semibold">All Request Recieved</p>
+      <p className="text-2xl my-8 font-semibold">All Request Recieved</p>
       {/* <hr className="border w-1/2"></hr> */}
       {console.log(requests)}
       {requests &&
