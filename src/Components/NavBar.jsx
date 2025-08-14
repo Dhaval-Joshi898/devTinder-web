@@ -42,9 +42,9 @@ const NavBar = () => {
               <Link to="/connections">My Connections</Link>
             </p>
             <div className="mt-2 ml-2 indicator cursor-pointer">
-              <span className="indicator-item badge badge-secondary size-6">
+              { requests &&<span className="indicator-item badge badge-secondary size-6">
                 {requests?.length}
-              </span>
+              </span>}
               <Link
                 to="/requests"
                 className="px-4 py-1 rounded-md transition-colors duration-200 hover:bg-gray-600 font-semibold"
@@ -113,13 +113,10 @@ const NavBar = () => {
               <Link to="/requests">Requests</Link>
             </li>
             <li className="text-lg py-2 px-3  rounded ">
-              <div className="flex justify-between ">
-              <a onClick={handleLogoutClick}>Logout</a>
-              <FiLogOut className="h-8 ml-4" />
-             
-              
+              <div className="flex justify-between " onClick={handleLogoutClick}>
+                <a >Logout</a>
+                <FiLogOut  className="h-8 ml-4" />
               </div>
-                
             </li>
           </ul>
 
