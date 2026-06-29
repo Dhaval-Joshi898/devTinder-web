@@ -8,8 +8,8 @@ import BASE_URL from "../utils/constants";
 import { addRequestsList } from "../utils/requestsSlice";
 
 const Login = () => {
-  const [emailId, setEmailId] = useState("dhaval@gmail.com");
-  const [password, setPassword] = useState("Dhaval@123");
+  const [emailId, setEmailId] = useState("");
+  const [password, setPassword] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [errorMessage, setErrorMessage] = useState("");

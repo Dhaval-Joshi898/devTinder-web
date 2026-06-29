@@ -5,27 +5,40 @@ import { useDispatch, useSelector } from "react-redux";
 import { addFeedData } from "../utils/feedSlice";
 import UserCard from "./UserCard";
 import { addNotification } from "../utils/notificationSlice";
+import { useNavigate } from "react-router-dom";
 
 const Feed = () => {
   const dispatch = useDispatch();
   const feed = useSelector((store) => store?.feed);
-
+  const navigate=useNavigate()
   
-  
 
+  // const fetchFeedData = async () => {
+  //   if (feed) return; //if feed data is there return dont call the api
+  //   const response = await axios.get(BASE_URL + "/feed", {
+  //     withCredentials: true,
+  //   });
+  //   console.log(response?.data);
+  //   dispatch(addFeedData(response?.data));
+
+  //   //notification count in  bell icon
+  //   const res=await axios.get( BASE_URL + "/notifications",{withCredentials:true})
+  //   dispatch(addNotification(res.data.data))
+
+  // };
   const fetchFeedData = async () => {
+  try {
     if (feed) return; //if feed data is there return dont call the api
-    const response = await axios.get(BASE_URL + "/feed", {
-      withCredentials: true,
-    });
-    console.log(response?.data);
-    dispatch(addFeedData(response?.data));
+    const response = await axios.get("/feed",{withCredentials:true});
+    dispatch(addFeedData(response.data));
 
-    //notification count in  bell icon
-    const res=await axios.get( BASE_URL + "/notifications",{withCredentials:true})
-    dispatch(addNotification(res.data.data))
-
-  };
+     //notification count in  bell icon
+     const res=await axios.get( BASE_URL + "/notifications",{withCredentials:true})
+     dispatch(addNotification(res.data.data))
+  } catch (err) {
+    navigate("/login");
+  }
+};
 
   useEffect(() => {
     fetchFeedData();
