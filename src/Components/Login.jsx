@@ -48,6 +48,9 @@ const Login = () => {
 
   const handleLoginClick = async () => {
     try {
+      console.log("BASE_URL =", BASE_URL);
+      console.log("Login URL =", BASE_URL + "/login");
+
       const response = await axios.post(
         BASE_URL+"/login",
         {
