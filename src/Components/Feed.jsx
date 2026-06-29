@@ -29,8 +29,9 @@ const Feed = () => {
   const fetchFeedData = async () => {
   try {
     if (feed) return; //if feed data is there return dont call the api
-    const response = await axios.get("/feed",{withCredentials:true});
-    dispatch(addFeedData(response.data));
+    const response = await axios.get(BASE_URL +"/feed",{withCredentials:true});
+    console.log("feed all data"+response)
+    dispatch(addFeedData(response?.data));
 
      //notification count in  bell icon
      const res=await axios.get( BASE_URL + "/notifications",{withCredentials:true})
