@@ -12,22 +12,42 @@ const EditProfile = ({ user }) => {
   const [gender, setGender] = useState(user.gender || " ");
   const [about, setAbout] = useState(user.about );
   const [photoUrl, setPhotoUrl] = useState(user.photoUrl);
+  const [photo,setPhoto]=useState(null) //for cloudinary
   const [showUpdatedMessage, setShowUpdatedMessage] = useState(false);
   const dispatch = useDispatch();
 
+
   const handleSaveClick = async() => {
+  try{
+    const formData=new FormData();
+    formData.append("firstName", firstName);
+    formData.append("lastName", lastName);
+    formData.append("about", about);
+    formData.append("photo", photo);
+    formData.append("gender", gender);
+    formData.append("age", age);
+
     const response = await axios.patch(
       BASE_URL + "/profile/edit",
-      { firstName, lastName, age, gender, about, photoUrl },
+      formData,
       { withCredentials: true }
     );
     console.log(response)
+    // const response2 = await axios.patch(
+    //   BASE_URL + "/profile/editCloudinary",
+    //   { firstName, lastName, age, gender, about, photoUrl },
+    //   { withCredentials: true }
+    // );
+    // console.log("Update wiht patch using cloudnary image",response2)
     dispatch(addUser(response?.data?.data));
     setShowUpdatedMessage(true)
     
     setTimeout(()=>{
         setShowUpdatedMessage(false)
     },5000)
+  }catch(error){
+    console.log(error.message)
+  }
   };
   return (
     <div className="flex flex-col-reverse lg:flex-row justify-center items-start mt-10 gap-10 px-4">
@@ -69,6 +89,31 @@ const EditProfile = ({ user }) => {
         </fieldset>
 
         <fieldset className="fieldset ml-9">
+          <legend className="fieldset-legend text-sm font-normal">Photo</legend>
+          <input
+            type="file"
+            accept="image/*"
+            // className="file-input file-input-bordered w-full"
+             className="file-input file-input-bordered file-input-primary bg-gray-800 text-white border-gray-700"
+            onChange={(e) =>{
+            console.log(e.target.files[0])
+            setPhoto(e.target.files[0])}
+            }
+          />
+        </fieldset> 
+
+        {/* <fieldset className="fieldset ml-9">
+          <legend className="fieldset-legend text-sm font-normal">Photo URL</legend>
+          <input
+            type="text"
+            value={photoUrl}
+            className="input mb-1"
+            placeholder="Enter photo URL"
+            onChange={(e) => setPhotoUrl(e.target.value)}
+          />
+        </fieldset> */}
+
+        <fieldset className="fieldset ml-9">
           <legend className="fieldset-legend text-sm font-normal">Age</legend>
           <input
             type="text"
@@ -79,16 +124,6 @@ const EditProfile = ({ user }) => {
           />
         </fieldset>
 
-        <fieldset className="fieldset ml-9">
-          <legend className="fieldset-legend text-sm font-normal">Photo URL</legend>
-          <input
-            type="text"
-            value={photoUrl}
-            className="input mb-1"
-            placeholder="Enter photo URL"
-            onChange={(e) => setPhotoUrl(e.target.value)}
-          />
-        </fieldset>
 
         <fieldset className="fieldset ml-9">
           <legend className="fieldset-legend text-sm font-normal">Gender</legend>
@@ -126,10 +161,10 @@ const EditProfile = ({ user }) => {
 
   {/* ✅ Toast message */}
   {showUpdatedMessage && (
-    <div className="toast toast-top toast-center">
+    <div className="toast toast-top  mt-16 z-10 toast-center">
       <div className="alert alert-success">
         <span className="text-gray-700 font-semibold">
-          Information Updated Successfully
+          Information Updated Successfully{console.log("Info updated")}
         </span>
       </div>
     </div>

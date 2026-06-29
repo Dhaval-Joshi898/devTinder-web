@@ -13,7 +13,12 @@ const Login = () => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
-  const [isLogin, setIsLogin] = useState("true");
+  const [isLogin, setIsLogin] = useState(true);
+
+  const [showOtpInput, setShowOtpInput] = useState(false);
+  const [otp, setOtp] = useState("");
+  const [loading, setLoading] = useState(false);
+
   const dispatch = useDispatch();
   const user = useSelector((Store) => Store.user);
   const logoutStatus = useSelector((store) => store.logout);
@@ -38,7 +43,7 @@ const Login = () => {
 
       return () => clearTimeout(timerLogout);
     }
-    fetchRequestsReceived()
+    fetchRequestsReceived();
   }, [logoutStatus, user]);
 
   const handleLoginClick = async () => {
@@ -49,7 +54,7 @@ const Login = () => {
           emailId,
           password,
         },
-        { withCredentials: true }
+        { withCredentials: true },
       );
 
       // console.log(response.data);
@@ -61,12 +66,35 @@ const Login = () => {
     }
   };
 
+  //click to send otp to mail
   const handleSignUpClick = async () => {
+    try {
+      setLoading(true);
+      const response = await axios.post(
+        BASE_URL + "/sendotp",
+        { emailId },
+        { withCredentials: true },
+      );
+      console.log(response.data.data);
+      // toast.success("OTP Sent Successfully");
+      setShowOtpInput(true);
+
+      // dispatch(addUser(response.data.data));
+      // navigate("/profile");
+    } catch (err) {
+      setErrorMessage(err?.response?.data || "Something went Wrong");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  //after adding otp and click verify&signup this
+  const handleVerifyAndSignup = async () => {
     try {
       const response = await axios.post(
         BASE_URL + "/signup",
-        { firstName, lastName, emailId, password },
-        { withCredentials: true }
+        { firstName, lastName, emailId, password, otp },
+        { withCredentials: true },
       );
       console.log(response.data.data);
       dispatch(addUser(response.data.data));
@@ -75,6 +103,8 @@ const Login = () => {
       setErrorMessage(err?.response?.data || "Something went Wrong");
     }
   };
+
+  const handleSendOTP = async () => {};
   return (
     <>
       {logoutStatus && (
@@ -98,82 +128,166 @@ const Login = () => {
           <span className="font-bold">Logged Out Successfully!</span>
         </div>
       )}
-      <div className="flex justify-center mt-28 ">
-        <div className="card bg-base-300 w-96 shadow-lg rounded-2xl ">
-          <div className="card-body">
-            <h2 className="card-title justify-center text-2xl mb-3 font-semibold">
-              {isLogin ? "Login" : "Sign Up"}
-            </h2>
-            {!isLogin && (
-              <>
-                <fieldset className="fieldset">
-                  <legend className="fieldset-legend text-sm font-normal">
-                    First Name
-                  </legend>
-                  <input
-                    type="text"
-                    value={firstName}
-                    className="input mb-2"
-                    placeholder="Enter your First Name"
-                    onChange={(e) => setFirstName(e.target.value)}
-                  />
-                </fieldset>
-                <fieldset className="fieldset">
-                  <legend className="fieldset-legend text-sm font-normal">
-                    Last Name
-                  </legend>
-                  <input
-                    type="text"
-                    value={lastName}
-                    className="input mb-2"
-                    placeholder="Enter your Last Name"
-                    onChange={(e) => setLastName(e.target.value)}
-                  />
-                </fieldset>{" "}
-              </>
-            )}
-            <fieldset className="fieldset">
-              <legend className="fieldset-legend text-sm font-normal">
-                Email Id
-              </legend>
-              <input
-                type="text"
-                value={emailId}
-                className="input mb-2"
-                placeholder="Enter your email"
-                onChange={(e) => setEmailId(e.target.value)}
-              />
-            </fieldset>
-            <fieldset className="fieldset">
-              <legend className="fieldset-legend text-sm font-normal">
-                Password
-              </legend>
-              <input
-                type="text"
-                value={password}
-                className="input mb-2"
-                placeholder="Enter your password"
-                onChange={(e) => setPassword(e.target.value)}
-              />
-            </fieldset>
-            <p className="text-red-500">{errorMessage}</p>
-            <div className="card-actions justify-center p-2 ">
-              <button
-                className="btn btn-primary px-9"
-                onClick={isLogin ? handleLoginClick : handleSignUpClick}
-              >
+      {!showOtpInput && (
+        <div className="flex justify-center mt-28 ">
+          <div className="card bg-base-300 w-96 shadow-lg rounded-2xl ">
+            <div className="card-body">
+              <h2 className="card-title justify-center text-2xl mb-3 font-semibold">
                 {isLogin ? "Login" : "Sign Up"}
-              </button>
+              </h2>
+              {!isLogin && (
+                <>
+                  <fieldset className="fieldset">
+                    <legend className="fieldset-legend text-sm font-normal">
+                      First Name
+                    </legend>
+                    <input
+                      type="text"
+                      value={firstName}
+                      className="input mb-2"
+                      placeholder="Enter your First Name"
+                      onChange={(e) => setFirstName(e.target.value)}
+                    />
+                  </fieldset>
+                  <fieldset className="fieldset">
+                    <legend className="fieldset-legend text-sm font-normal">
+                      Last Name
+                    </legend>
+                    <input
+                      type="text"
+                      value={lastName}
+                      className="input mb-2"
+                      placeholder="Enter your Last Name"
+                      onChange={(e) => setLastName(e.target.value)}
+                    />
+                  </fieldset>{" "}
+                </>
+              )}
+              <fieldset className="fieldset">
+                <legend className="fieldset-legend text-sm font-normal">
+                  Email Id
+                </legend>
+                <input
+                  type="text"
+                  value={emailId}
+                  className="input mb-2"
+                  placeholder="Enter your email"
+                  onChange={(e) => setEmailId(e.target.value)}
+                />
+              </fieldset>
+              <fieldset className="fieldset">
+                <legend className="fieldset-legend text-sm font-normal">
+                  Password
+                </legend>
+                <input
+                  type="text"
+                  value={password}
+                  className="input mb-2"
+                  placeholder="Enter your password"
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+              </fieldset>
+              <p className="text-red-500">{errorMessage}</p>
+              <div className="card-actions justify-center p-2 ">
+                {/* <button
+                  className="btn btn-primary px-9"
+                  onClick={isLogin ? handleLoginClick : handleSignUpClick}
+                >
+                  {isLogin ? "Login" : "Sign Up"}
+                </button> */}
+                <button
+                  className="btn btn-primary px-9"
+                  disabled={loading}
+                  onClick={isLogin ? handleLoginClick : handleSignUpClick}
+                >
+                  {loading ? (
+                    <>
+                      <span className="loading loading-spinner loading-sm"></span>
+                      Sending OTP...
+                    </>
+                  ) : isLogin ? (
+                    "Login"
+                  ) : (
+                    "Sign Up"
+                  )}
+                </button>
+              </div>
+              <p
+                className="text-center mt-3 cursor-pointer text-md font-semibold"
+                onClick={() => setIsLogin(!isLogin)}
+              >
+                {isLogin ? "New User? Sign Up " : "Already a User? Login"}
+              </p>
             </div>
-            <p
-              className="text-center mt-3 cursor-pointer text-md font-semibold"
-              onClick={() => setIsLogin(!isLogin)}
-            >
-              {isLogin ? "New User? Sign Up " : "Already a User? Login"}
-            </p>
           </div>
         </div>
-      </div>
+      )}
+
+      {showOtpInput && (
+        <div className="flex justify-center mt-28">
+          <div className="card bg-base-300 w-96 shadow-lg rounded-2xl">
+            <div className="card-body">
+              <h2 className="text-2xl font-bold text-center mb-2">
+                Verify OTP
+              </h2>
+
+              <p className="text-center text-sm opacity-70 mb-4">
+                OTP sent to <span className="font-semibold">{emailId}</span>
+              </p>
+
+              {/* OTP INPUT */}
+
+              <fieldset className="fieldset">
+                <legend className="fieldset-legend text-sm font-normal">
+                  Enter OTP
+                </legend>
+
+                <input
+                  type="text"
+                  value={otp}
+                  maxLength={6}
+                  className="input input-bordered text-center text-lg tracking-[10px] font-semibold"
+                  placeholder="----"
+                  onChange={(e) => setOtp(e.target.value)}
+                />
+              </fieldset>
+
+              {/* ERROR */}
+
+              <p className="text-red-500 text-sm mt-1">{errorMessage}</p>
+
+              {/* VERIFY BUTTON */}
+
+              <div className="card-actions justify-center mt-4">
+                <button
+                  className="btn btn-primary px-10"
+                  onClick={handleVerifyAndSignup}
+                >
+                  Verify & Sign Up
+                </button>
+              </div>
+
+              {/* RESEND */}
+
+              <p
+                className="text-center mt-4 text-sm cursor-pointer hover:underline"
+                onClick={handleSendOTP}
+              >
+                Resend OTP
+              </p>
+
+              {/* BACK BUTTON */}
+
+              <p
+                className="text-center mt-2 text-sm cursor-pointer hover:underline"
+                onClick={() => setShowOtpInput(false)}
+              >
+                Back
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 };

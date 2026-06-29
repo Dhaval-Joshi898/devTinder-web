@@ -4,10 +4,14 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addFeedData } from "../utils/feedSlice";
 import UserCard from "./UserCard";
+import { addNotification } from "../utils/notificationSlice";
 
 const Feed = () => {
   const dispatch = useDispatch();
   const feed = useSelector((store) => store?.feed);
+
+  
+  
 
   const fetchFeedData = async () => {
     if (feed) return; //if feed data is there return dont call the api
@@ -16,6 +20,11 @@ const Feed = () => {
     });
     console.log(response?.data);
     dispatch(addFeedData(response?.data));
+
+    //notification count in  bell icon
+    const res=await axios.get( BASE_URL + "/notifications",{withCredentials:true})
+    dispatch(addNotification(res.data.data))
+
   };
 
   useEffect(() => {

@@ -19,6 +19,12 @@ const Connections = () => {
     // console.log(response.data);
     dispatch(addConnectionList(response.data.data));
   };
+  const onMessageBtnClick=(targetUserId,firstName)=>{
+    navigate(`/chat/${targetUserId}`)
+    // console.log("in connnection",targetUserId)
+    // console.log("in connnection",firstName)
+    
+  }
 
   useEffect(() => {
     if (!user) {
@@ -74,7 +80,7 @@ const Connections = () => {
                 {connection.about || "No bio yet"}
               </p>
               <div className="card-actions justify-end">
-                <button className="btn btn-sm btn-outline btn-primary">
+                <button onClick={()=>onMessageBtnClick(connection._id,connection.firstName)} className="btn btn-sm btn-outline btn-primary">
                   Message
                 </button>
               </div>

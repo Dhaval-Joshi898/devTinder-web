@@ -4,6 +4,9 @@ import logoutReducer from "./logoutSlice"
 import feedReducer from "./feedSlice"
 import connectionReducer from "./connectionSlice"
 import requestsReducer from "./requestsSlice"
+import postsReducer from "./postsSlice"
+import commentReducer from "./commentsSlice"
+import notificationReducer from "./notificationSlice"
 
 const appStore=configureStore({
     reducer:{
@@ -11,7 +14,10 @@ const appStore=configureStore({
         logout:logoutReducer,
         feed:feedReducer,
         connections:connectionReducer,
-        requests:requestsReducer
+        requests:requestsReducer,
+        posts:postsReducer, 
+        comments:commentReducer,
+        notifications:notificationReducer
     }
 })
 

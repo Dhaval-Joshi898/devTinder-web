@@ -6,12 +6,18 @@ import { removeUser } from "../utils/userSlice";
 import { isLogout } from "../utils/logoutSlice";
 import { removeFeed } from "../utils/feedSlice";
 import { FiLogOut } from "react-icons/fi";
+import { useState } from "react";
+import { Store } from "lucide-react";
 
 const NavBar = () => {
   const user = useSelector((store) => store.user);
+  const [notifications, setNotifications] = useState([]);
+  const [showNotifications, setShowNotifications] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const requests = useSelector((store) => store.requests);
+  const postNotification = useSelector((store) => store.notifications.notifications);
+  console.log("Inside navbar", postNotification);
 
   const handleLogoutClick = async () => {
     try {
@@ -26,25 +32,44 @@ const NavBar = () => {
   };
 
   return (
-    <div className="navbar bg-base-300 shadow-sm fixed top-0 z-[999] ">
-      <div className="flex-1 ml-5 text-2xl lg:text-3xl">
+    <div className="navbar bg-base-300 bg-#111827 shadow-sm fixed top-0 z-[999] h-0.5 ">
+      <div className="flex-1 ml-5  text-sm sm:text-md md:text-xl lg:text-2xl">
         {user ? <Link to="/">🧑🏻‍💻DevTinder</Link> : <a>🧑🏻‍💻DevTinder</a>}
       </div>
-      <div className="flex gap-2 hidden  md:flex  ">
+      <div className="hidden md:flex items-center gap-4 ">
         {user && (
           <>
+            <p className="mt-2  px-4 py-1  rounded-md transition-colors duration-200 hover:bg-gray-600 font-semibold cursor-pointer">
+              {/* {" "}
+              <Link to="/notifications">🔔</Link> */}
+              <Link to="/notifications" className="indicator cursor-pointer">
+                {postNotification?.length > 0 && (
+                  <span className="indicator-item badge badge-secondary size-6">
+                    {postNotification.length}
+                  </span>
+                )}
+
+                <span className="text-2xl">🔔</span>
+              </Link>
+            </p>
             <p className="mt-2  px-4 py-1  rounded-md transition-colors duration-200 hover:bg-gray-600 font-semibold cursor-pointer">
               {" "}
               <Link to="/profile">My Profile</Link>
             </p>
             <p className="mt-2  px-4 py-1  rounded-md transition-colors duration-200 hover:bg-gray-600 font-semibold cursor-pointer">
               {" "}
+              <Link to="/posts">All Posts</Link>
+            </p>
+            <p className="mt-2  px-4 py-1  rounded-md transition-colors duration-200 hover:bg-gray-600 font-semibold cursor-pointer">
+              {" "}
               <Link to="/connections">My Connections</Link>
             </p>
             <div className="mt-2 ml-2 indicator cursor-pointer">
-              { requests &&<span className="indicator-item badge badge-secondary size-6">
-                {requests?.length}
-              </span>}
+              {requests && (
+                <span className="indicator-item badge badge-secondary size-6">
+                  {requests?.length}
+                </span>
+              )}
               <Link
                 to="/requests"
                 className="px-4 py-1 rounded-md transition-colors duration-200 hover:bg-gray-600 font-semibold"
@@ -87,7 +112,11 @@ const NavBar = () => {
         )}{" "} */}
       </div>
       {/* Below this circle avatar will be visble in all screens */}
-      {user && <p className="mt-2 ml-3 mx-1 ">Welcome, {user.firstName}</p>}
+      {user && (
+        <p className="mt-2 ml-3 mx-1 text-sm ml-10">
+          Welcome, {user.firstName}
+        </p>
+      )}
       {user && (
         <div className="dropdown dropdown-end mx-5  ">
           <div
@@ -113,9 +142,12 @@ const NavBar = () => {
               <Link to="/requests">Requests</Link>
             </li>
             <li className="text-lg py-2 px-3  rounded ">
-              <div className="flex justify-between " onClick={handleLogoutClick}>
-                <a >Logout</a>
-                <FiLogOut  className="h-8 ml-4" />
+              <div
+                className="flex justify-between "
+                onClick={handleLogoutClick}
+              >
+                <a>Logout</a>
+                <FiLogOut className="h-8 ml-4" />
               </div>
             </li>
           </ul>

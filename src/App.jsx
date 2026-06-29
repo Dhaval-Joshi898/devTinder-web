@@ -7,6 +7,11 @@ import { Provider } from "react-redux";
 import appStore from "./utils/appStore";
 import Connections from "./Components/Connections";
 import Requests from "./Components/Requests";
+import Chat from "./Components/Chat";
+import Posts from "./Components/Posts";
+import PostCard from "./Components/PostCard";
+import PostComments from "./Components/PostComments";
+import Notifications from "./Components/Notifications";
 
 function App() {
   return (
@@ -21,6 +26,14 @@ function App() {
               <Route path="/profile" element={<Profile />} />
               <Route path="/connections" element={<Connections/>} />
               <Route path="/requests" element={<Requests/>} />
+              <Route path="/chat/:targetUserId" element={<Chat/>} />
+
+              {/* 4 may */}
+              <Route path="/posts" element={<Posts/>} />
+              <Route path="/postcomments/:postId" element={<PostComments/>} />
+              <Route path="/notifications" element={<Notifications/>} />
+             
+              
             </Route>
           </Routes>
         </BrowserRouter>
