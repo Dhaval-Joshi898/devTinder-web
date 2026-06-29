@@ -1,5 +1,4 @@
-const BASE_URL = import.meta.env.VITE_BACKEND_URL;
-
+const BASE_URL = "https://dev-tinder-gray.vercel.app"
 
 // const  BASE_URL="http://localhost:9999"
 
